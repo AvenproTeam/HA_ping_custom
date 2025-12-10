@@ -1,0 +1,11 @@
+{
+  "codeowners": ["AvenproTeam"],
+  "config_flow": false,
+  "dependencies": [],
+  "documentation": "https://github.com/AvenproTeam/ping_custom",
+  "domain": "ping_custom",
+  "iot_class": "calculated",
+  "name": "ping_custom",
+  "requirements": [],
+  "version": "1.0.0"
+}
