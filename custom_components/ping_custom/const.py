@@ -3,4 +3,5 @@
 DOMAIN = "ping_custom"
 
 CONF_HOST = "host"
+CONF_PING_COUNT = "ping_count"
 DEFAULT_NAME = "Ping Host"
