@@ -22,7 +22,7 @@ def build_packet(seq):
     header = struct.pack("!BBHHH", ICMP_ECHO, 0, chk, ID, seq)
     return header + payload
 
-def ping(host, timeout=1):
+def ping(host, timeout=1, count=1):
     """Ping host and return (success: bool, latency_ms: float or None)"""
     sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
     sock.settimeout(timeout)
