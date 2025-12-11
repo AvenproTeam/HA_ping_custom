@@ -1,11 +1,12 @@
 {
-  "codeowners": ["AvenproTeam"],
-  "config_flow": true,
-  "dependencies": [],
-  "documentation": "https://github.com/AvenproTeam/ping_custom",
   "domain": "ping_custom",
-  "iot_class": "calculated",
-  "name": "ping_custom",
+  "name": "Ping (Custom)",
+  "version": "1.0.0",
+  "documentation": "https://github.com/AvenproTeam/HA_ping_custom",
   "requirements": [],
-  "version": "1.0.0"
+  "dependencies": [],
+  "codeowners": ["@AvenproTeam"],
+  "config_flow": true,
+  "iot_class": "local_polling",
+  "integration_type": "service"
 }
