@@ -17,37 +17,34 @@ def _clean(user_input):
     return user_input
 
 
-class PingCustomConfigFlow(ConfigFlow, domain=DOMAIN):
-    VERSION = 1
+class PingOptionsFlow(OptionsFlowWithReload):
+    """Handle options for Ping Custom."""
 
-    async def async_step_user(self, user_input=None):
-        if user_input is None:
-            return self.async_show_form(
-                step_id="user",
-                data_schema=vol.Schema({
-                    vol.Required(CONF_HOST): str,
-                    vol.Optional(CONF_NAME, default=DEFAULT_NAME): str,
-                }),
-            )
+    # no __init__ method needed
 
-        user_input = _clean(user_input)
+    async def async_step_init(self, user_input=None):
+        if user_input is not None:
+            user_input = _clean(user_input)
+            return self.async_create_entry(title="", data=user_input)
 
-        if not is_ip_address(user_input[CONF_HOST]):
-            return self.async_show_form(
-                step_id="user",
-                errors={"base": "invalid_ip"},
-                data_schema=vol.Schema({
-                    vol.Required(CONF_HOST): str,
-                    vol.Optional(CONF_NAME, default=DEFAULT_NAME): str,
-                }),
-            )
-
-        self._async_abort_entries_match({CONF_HOST: user_input[CONF_HOST]})
-
-        return self.async_create_entry(
-            title=user_input[CONF_NAME],
-            data={CONF_HOST: user_input[CONF_HOST]},
-            options={CONF_HOST: user_input[CONF_HOST], CONF_PING_COUNT: 1},
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema({
+                vol.Required(
+                    CONF_HOST,
+                    default=self.config_entry.options.get(CONF_HOST, ""),
+                ): str,
+                vol.Optional(
+                    CONF_PING_COUNT,
+                    default=self.config_entry.options.get(CONF_PING_COUNT, 1),
+                ): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=1,
+                        max=100,
+                        mode=selector.NumberSelectorMode.BOX,
+                    )
+                ),
+            }),
         )
 
     @staticmethod
