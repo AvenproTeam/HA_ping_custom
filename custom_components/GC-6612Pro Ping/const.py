@@ -1,6 +1,6 @@
 """Constants for the GC-6612Pro Ping integration."""
 
-DOMAIN = "ping_custom"
+DOMAIN = "GC-6612Pro Ping"
 
 CONF_HOST = "host"
 CONF_PING_COUNT = "ping_count"
