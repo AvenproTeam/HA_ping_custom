@@ -1,0 +1,12 @@
+{
+  "domain": "GC-6612Pro_Ping",
+  "name": "GC-6612Pro Ping",
+  "version": "1.0.6",
+  "documentation": "https://github.com/AvenproTeam/HA_ping_custom",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@AvenproTeam"],
+  "config_flow": true,
+  "iot_class": "local_polling",
+  "integration_type": "service"
+}
