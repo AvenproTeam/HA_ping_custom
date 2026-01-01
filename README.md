@@ -1,3 +1,3 @@
-# ping_custom for Home Assistant
+# GC-6612Pro Ping for Home Assistant
 
 ## Installation

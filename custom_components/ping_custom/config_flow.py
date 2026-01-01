@@ -26,7 +26,7 @@ def _clean_user_input(user_input: dict[str, Any]) -> dict[str, Any]:
 
 
 class PingCustomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Config flow for ping_custom integration."""
+    """Config flow for GC-6612Pro Ping integration."""
 
     VERSION = 1
 

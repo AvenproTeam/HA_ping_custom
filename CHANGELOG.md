@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.3] - 2026-01-01
+
+### Changed
+- Rename integration display name to **GC-6612Pro Ping** (`manifest.json` and `hacs.json`).
+
 ## [1.0.2] - 2026-01-01
 
 ### Release

@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
-"""The Ping Custom integration."""
+"""The GC-6612Pro Ping integration."""
 
->>>>>>> 0a6c877 (Polish __init__ docstrings / logging)
 from __future__ import annotations
 
 import logging
@@ -12,15 +9,6 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
-<<<<<<< HEAD
-DOMAIN = "ping_custom"
-PLATFORMS = [Platform.BINARY_SENSOR]
-
-
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up Ping Custom from a config entry."""
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-=======
 from .config_flow import PingCustomConfigFlow  # ← ¡ESTA IMPORTACIÓN ES LA CLAVE!
 from .const import DOMAIN
 
@@ -31,7 +19,6 @@ _LOGGER = logging.getLogger(__name__)
 
 async def async_setup(hass: HomeAssistant, config: dict[str, Any]) -> bool:
     """Configuración alternativa si es necesario (opcional para integraciones modernas)."""
->>>>>>> 0a6c877 (Polish __init__ docstrings / logging)
     return True
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -42,22 +29,17 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             f"{DOMAIN}_updated", lambda e: hass.config_entries.async_reload(entry.entry_id)
         )
     )
-    
+
     # Forward al sensor binario
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    _LOGGER.info("Integración Ping Custom configurada correctamente para %s", entry.title)
+    _LOGGER.info("Integración GC-6612Pro Ping configurada correctamente para %s", entry.title)
     return True
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-<<<<<<< HEAD
-    """Unload a config entry."""
-    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
-=======
     """Descarga una entrada de configuración."""
     if unload_ok := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
         # Limpia datos si los hay
         if DOMAIN in hass.data and entry.entry_id in hass.data[DOMAIN]:
             hass.data[DOMAIN].pop(entry.entry_id)
-    
+
     return unload_ok
->>>>>>> 0a6c877 (Polish __init__ docstrings / logging)

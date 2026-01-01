@@ -1,4 +1,4 @@
-"""Constants for the Ping Custom integration."""
+"""Constants for the GC-6612Pro Ping integration."""
 
 DOMAIN = "ping_custom"
 
