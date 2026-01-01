@@ -1,7 +1,7 @@
 {
   "domain": "GC-6612Pro_Ping",
   "name": "GC-6612Pro Ping",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "documentation": "https://github.com/AvenproTeam/HA_ping_custom",
   "requirements": [],
   "dependencies": [],

@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.5] - 2026-01-01
+
+### Fixed
+- Fix options flow handler initialization and manifest domain to resolve config flow load errors ("Invalid handler specified" / missing module import).
+
 ## [1.0.4] - 2026-01-01
 
 ### Release
