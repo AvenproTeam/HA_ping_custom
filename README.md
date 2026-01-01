@@ -47,6 +47,3 @@ The test suite uses a development testing environment and may require additional
 ## 📦 Changelog
 
 See `CHANGELOG.md` for details about releases.
-
-
-## Installation
