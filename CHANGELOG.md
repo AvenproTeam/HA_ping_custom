@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4] - 2026-01-01
+
+### Release
+- Publish v1.0.4 release.
+- Updated README file.
+- Fix "Invalid handler specified" error.
+
 ## [1.0.3] - 2026-01-01
 
 ### Changed
