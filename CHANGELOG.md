@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.1.0] - 2026-11-22
+
+### Breaking
+- Domain renamed from `GC-6612Pro_Ping` to `gc6612pro_ping` and folder to `custom_components/gc6612pro_ping`. The old domain was invalid (uppercase and hyphen, folder name mismatch), which is the root cause of the "Invalid handler specified" errors. Existing entries must be added again.
+
+### Added
+- Latency (ms) and packet loss (%) sensors, grouped under one device per host.
+- `scan_interval` option (default 30 s) and reconfigure step to change the host.
+- English, Spanish and Catalan translations.
+- Tests for setup, entities, config, options and reconfigure flows.
+
+### Changed
+- Ping is done with `icmplib` through a `DataUpdateCoordinator`: honours `ping_count`, supports hostnames and IPv6, matches replies correctly when several hosts are pinged at once, and falls back to unprivileged ICMP when raw sockets are not allowed.
+- Hostname lookup failures report the host as offline instead of raising.
+- Binary sensor attributes now include `ip_address`, `latency_min_ms`, `latency_max_ms` and `packet_loss`.
+
+### Fixed
+- Changing the host in options had no effect (the sensor only read the original host).
+- `ping_count` was stored as a float and ignored by the ping routine.
+- Empty host validation never aborted (missing `return`).
+
+### Removed
+- Leftover `custom_components/ping_custom/manifest.json`, stray root `__init__.py` and tracked `.DS_Store` files.
+
 ## [1.0.6] - 2026-01-01
 
 ### Release

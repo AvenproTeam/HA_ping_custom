@@ -1,0 +1,53 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Afegeix un host a monitoritzar",
+        "data": {
+          "host": "Host",
+          "name": "Nom"
+        },
+        "data_description": {
+          "host": "Adreça IP o nom de host a monitoritzar.",
+          "name": "Opcional. Per defecte, el host."
+        }
+      },
+      "reconfigure": {
+        "title": "Canvia el host",
+        "data": {
+          "host": "Host"
+        },
+        "data_description": {
+          "host": "Adreça IP o nom de host a monitoritzar."
+        }
+      }
+    },
+    "error": {
+      "invalid_host": "Introdueix una adreça IP o un nom de host."
+    },
+    "abort": {
+      "already_configured": "Aquest host ja s'està monitoritzant.",
+      "reconfigure_successful": "S'ha actualitzat el host."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "ping_count": "Pings per comprovació",
+          "scan_interval": "Interval de comprovació"
+        },
+        "data_description": {
+          "ping_count": "El host es considera accessible si arriba almenys una resposta.",
+          "scan_interval": "Segons entre comprovacions."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "latency": { "name": "Latència" },
+      "packet_loss": { "name": "Pèrdua de paquets" }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Añadir host a monitorizar",
+        "data": {
+          "host": "Host",
+          "name": "Nombre"
+        },
+        "data_description": {
+          "host": "Dirección IP o nombre de host a monitorizar.",
+          "name": "Opcional. Por defecto, el host."
+        }
+      },
+      "reconfigure": {
+        "title": "Cambiar host",
+        "data": {
+          "host": "Host"
+        },
+        "data_description": {
+          "host": "Dirección IP o nombre de host a monitorizar."
+        }
+      }
+    },
+    "error": {
+      "invalid_host": "Introduce una dirección IP o un nombre de host."
+    },
+    "abort": {
+      "already_configured": "Este host ya se está monitorizando.",
+      "reconfigure_successful": "Se ha actualizado el host."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "ping_count": "Pings por comprobación",
+          "scan_interval": "Intervalo de comprobación"
+        },
+        "data_description": {
+          "ping_count": "El host se considera accesible si llega al menos una respuesta.",
+          "scan_interval": "Segundos entre comprobaciones."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "latency": { "name": "Latencia" },
+      "packet_loss": { "name": "Pérdida de paquetes" }
+    }
+  }
+}

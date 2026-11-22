@@ -1,0 +1,53 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add host to ping",
+        "data": {
+          "host": "Host",
+          "name": "Name"
+        },
+        "data_description": {
+          "host": "IP address or hostname to monitor.",
+          "name": "Optional. Defaults to the host."
+        }
+      },
+      "reconfigure": {
+        "title": "Change host",
+        "data": {
+          "host": "Host"
+        },
+        "data_description": {
+          "host": "IP address or hostname to monitor."
+        }
+      }
+    },
+    "error": {
+      "invalid_host": "Enter an IP address or hostname."
+    },
+    "abort": {
+      "already_configured": "This host is already being monitored.",
+      "reconfigure_successful": "The host was updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "ping_count": "Echo requests per check",
+          "scan_interval": "Check interval"
+        },
+        "data_description": {
+          "ping_count": "The host counts as reachable if at least one reply arrives.",
+          "scan_interval": "Seconds between checks."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "latency": { "name": "Latency" },
+      "packet_loss": { "name": "Packet loss" }
+    }
+  }
+}
