@@ -10,12 +10,6 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_SCAN_INTERVAL
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
-from icmplib import (
-    ICMPLibError,
-    NameLookupError,
-    SocketPermissionError,
-    async_ping,
-)
 
 from .const import (
     CONF_PING_COUNT,
@@ -25,6 +19,7 @@ from .const import (
     PING_INTERVAL,
     PING_TIMEOUT,
 )
+from .ping_util import HostLookupError, PingStats, ping
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -52,9 +47,6 @@ class PingCoordinator(DataUpdateCoordinator[PingResult]):
         """Initialize the coordinator."""
         self.host: str = entry.data[CONF_HOST]
         self.count: int = int(entry.options.get(CONF_PING_COUNT, DEFAULT_PING_COUNT))
-        # Raw (privileged) sockets work on HA OS / containers running as root.
-        # Fall back to unprivileged datagram ICMP sockets otherwise.
-        self._privileged = True
         super().__init__(
             hass,
             _LOGGER,
@@ -67,49 +59,34 @@ class PingCoordinator(DataUpdateCoordinator[PingResult]):
             ),
         )
 
-    async def _ping(self):
-        return await async_ping(
-            self.host,
-            count=self.count,
-            interval=PING_INTERVAL,
-            timeout=PING_TIMEOUT,
-            privileged=self._privileged,
-        )
-
     async def _async_update_data(self) -> PingResult:
-        """Ping the host."""
+        """Ping the host with the GC-6612Pro compatible echo request."""
         try:
-            try:
-                host = await self._ping()
-            except SocketPermissionError:
-                if not self._privileged:
-                    raise
-                _LOGGER.debug(
-                    "No permission for raw ICMP sockets, using unprivileged mode"
-                )
-                self._privileged = False
-                host = await self._ping()
-        except NameLookupError:
+            stats: PingStats = await self.hass.async_add_executor_job(
+                ping, self.host, self.count, PING_TIMEOUT, PING_INTERVAL
+            )
+        except HostLookupError:
             _LOGGER.debug("Could not resolve host %s", self.host)
             return PingResult(is_alive=False)
-        except SocketPermissionError as err:
+        except PermissionError as err:
             raise UpdateFailed(
-                "Home Assistant is not allowed to open ICMP sockets; "
-                "run it as root or allow unprivileged ping (net.ipv4.ping_group_range)"
+                "Home Assistant is not allowed to open raw ICMP sockets; "
+                "it must run as root (Home Assistant OS does)"
             ) from err
-        except ICMPLibError as err:
+        except OSError as err:
             raise UpdateFailed(f"Error pinging {self.host}: {err}") from err
 
-        if not host.is_alive:
+        if not stats.rtts:
             return PingResult(
-                is_alive=False, ip_address=host.address, packet_loss=100.0
+                is_alive=False, ip_address=stats.address, packet_loss=100.0
             )
 
+        rtts = stats.rtts
         return PingResult(
             is_alive=True,
-            ip_address=host.address,
-            latency_ms=round(host.avg_rtt, 2),
-            latency_min_ms=round(host.min_rtt, 2),
-            latency_max_ms=round(host.max_rtt, 2),
-            packet_loss=round(host.packet_loss * 100, 1),
+            ip_address=stats.address,
+            latency_ms=round(sum(rtts) / len(rtts), 2),
+            latency_min_ms=round(min(rtts), 2),
+            latency_max_ms=round(max(rtts), 2),
+            packet_loss=round((1 - len(rtts) / stats.sent) * 100, 1),
         )

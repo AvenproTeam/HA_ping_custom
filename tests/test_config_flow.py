@@ -1,6 +1,6 @@
 """Test the config flow."""
 
-from unittest.mock import AsyncMock
+from unittest.mock import MagicMock
 
 from homeassistant.config_entries import SOURCE_USER
 from homeassistant.const import CONF_HOST, CONF_NAME, CONF_SCAN_INTERVAL
@@ -11,7 +11,7 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from custom_components.gc6612pro_ping.const import CONF_PING_COUNT, DOMAIN
 
 
-async def test_user_flow(hass: HomeAssistant, mock_ping: AsyncMock) -> None:
+async def test_user_flow(hass: HomeAssistant, mock_ping: MagicMock) -> None:
     """Create an entry from the user step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -28,7 +28,7 @@ async def test_user_flow(hass: HomeAssistant, mock_ping: AsyncMock) -> None:
 
 
 async def test_user_flow_title_defaults_to_host(
-    hass: HomeAssistant, mock_ping: AsyncMock
+    hass: HomeAssistant, mock_ping: MagicMock
 ) -> None:
     """Without a name, the host is used as title."""
     result = await hass.config_entries.flow.async_init(
@@ -68,7 +68,7 @@ async def test_user_flow_duplicate(
 
 
 async def test_options_flow(
-    hass: HomeAssistant, config_entry: MockConfigEntry, mock_ping: AsyncMock
+    hass: HomeAssistant, config_entry: MockConfigEntry, mock_ping: MagicMock
 ) -> None:
     """Options are stored as integers and applied on reload."""
     config_entry.add_to_hass(hass)
@@ -87,7 +87,7 @@ async def test_options_flow(
 
 
 async def test_reconfigure(
-    hass: HomeAssistant, config_entry: MockConfigEntry, mock_ping: AsyncMock
+    hass: HomeAssistant, config_entry: MockConfigEntry, mock_ping: MagicMock
 ) -> None:
     """The host can be changed without recreating the entry."""
     config_entry.add_to_hass(hass)

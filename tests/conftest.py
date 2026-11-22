@@ -1,14 +1,14 @@
 """Fixtures for testing."""
 
 from collections.abc import Generator
-from unittest.mock import AsyncMock, patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from homeassistant.const import CONF_HOST, CONF_SCAN_INTERVAL
-from icmplib import Host
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.gc6612pro_ping.const import CONF_PING_COUNT, DOMAIN
+from custom_components.gc6612pro_ping.ping_util import PingStats
 
 
 @pytest.fixture(autouse=True)
@@ -18,11 +18,11 @@ def auto_enable_custom_integrations(enable_custom_integrations):
 
 
 @pytest.fixture
-def mock_ping() -> Generator[AsyncMock]:
-    """Patch icmplib so no real packets are sent."""
+def mock_ping() -> Generator[MagicMock]:
+    """Patch the ping routine so no real packets are sent."""
     with patch(
-        "custom_components.gc6612pro_ping.coordinator.async_ping",
-        return_value=Host("192.168.1.10", 3, [1.0, 2.0, 3.0]),
+        "custom_components.gc6612pro_ping.coordinator.ping",
+        return_value=PingStats("192.168.1.10", 3, [1.0, 2.0, 3.0]),
     ) as mock:
         yield mock
 

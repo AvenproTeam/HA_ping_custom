@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.1] - 2026-11-22
+
+### Fixed
+- Restore the original GC-6612Pro compatible ping. Version 1.1.0 replaced it with `icmplib`, which sends standard ICMP packets the device does not answer, so it always showed as disconnected. The echo request is again byte-for-byte identical to 1.0.x (ID `0x0001`, sequence 1, payload `homeassistant`, swapped checksum bytes), now with:
+  - `ping_count` honoured (N identical requests).
+  - Only echo replies from the device IP with ID 1 accepted; other ICMP traffic ignored, IP header length read instead of assumed.
+  - Hostnames resolved before sending.
+- Removed the `icmplib` requirement.
+
+### Added
+- Integration icon (light and dark variants) in `brand/`, shown by Home Assistant 2026.x for custom integrations. Sources in `assets/`.
+- Test asserting the sent packet matches the original bytes.
+
 ## [1.1.0] - 2026-11-22
 
 ### Breaking

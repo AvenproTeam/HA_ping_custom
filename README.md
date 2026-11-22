@@ -38,7 +38,7 @@ Each host becomes a device with these entities:
 | `sensor.<name>_latency` | Average round-trip time in ms (long-term statistics). |
 | `sensor.<name>_packet_loss` | Packet loss in % (diagnostic). |
 
-Pings are sent with [icmplib](https://github.com/ValentinBELYN/icmplib). Raw sockets are used when Home Assistant runs as root (HA OS, standard containers); otherwise it falls back to unprivileged ICMP, which on Linux requires `net.ipv4.ping_group_range` to include the Home Assistant user.
+The GC-6612Pro does not answer standard pings, so the integration sends its own ICMP echo request (`ping_util.py`): ID `0x0001`, sequence `1`, payload `homeassistant` and a checksum with its bytes swapped compared with the standard. **Do not replace it with a standard ping library.** It needs raw sockets, so Home Assistant must run as root (Home Assistant OS and the official container do). Hostnames are resolved to IPv4.
 
 ---
 
